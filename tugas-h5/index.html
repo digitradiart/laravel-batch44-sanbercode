@@ -39,14 +39,14 @@
             Search
           </button>
         </form>
-        <button class="btn btn-primary" id="cart">
-          <i class="fas fa-shopping-cart"></i>(0)
+        <button class="btn btn-primary" id="cart" onclick="clearKeranjang()">
+          <i class="fas fa-shopping-cart"></i> (0)
         </button>
       </nav>
 
       <!-- CONTENT -->
       <div class="row">
-        <div class="row col-md-12 mt-2" id="listBarang"></div>
+        <div class="row col mt-2 mx-auto" id="listBarang"></div>
       </div>
     </div>
     <script
@@ -84,6 +84,20 @@
           "genius.jpeg",
         ],
         ["004", "Mouse Jerry", 30000, "Mouse yang disukai kucing", "jerry.jpg"],
+        [
+          "005",
+          "Headphone Rexus",
+          80000,
+          "Headphone mantep buat gaming",
+          "rexus.jpg",
+        ],
+        [
+          "006",
+          "Headphone Lenovo",
+          100000,
+          "Headphone keren gaya minimalist",
+          "lenovo.jpeg",
+        ],
       ];
 
       // release 0
@@ -95,26 +109,26 @@
         for (var i = 0; i < data.length; i++) {
           tampung += `
           <!-- Component Card dari Bootstrap -->
-          <div class="col-4 mt-2">
-            <div class="card" style="width: 18rem">
+          <div class="col-sm-12 col-md-4 mt-3 mx-auto">
+            <div class="card" style="height:450px;">
               <img
                 src="images/${data[i][4]}"
                 class="card-img-top"
-                height="200px"
                 width="200px"
+                height="200px"
                 alt="${data[i][1]}"
               />
-              <div class="card-body">
+              <div class="card-body" >
                 <h5 class="card-title" id="itemName">${data[i][1]}</h5>
                 <p class="card-text" id="itemDesc">${data[i][3]}</p>
                 <p class="card-text">Rp ${data[i][2]}</p>
-                <a href="#" class="btn btn-primary" id="addCart"
+                <a href="#" class="btn btn-primary" onClick="addKeranjang()" id="addCart"
                   >Tambahkan ke keranjang</a
                 >
               </div>
             </div>
           </div>
-          
+
           `;
         }
         // masukkan ke HTML
@@ -122,6 +136,49 @@
       }
       // panggil function
       tampilBarang(items);
+
+      // release 1
+      function filter(kataKunci) {
+        var filteredItem = [];
+
+        for (let a = 0; a < items.length; a++) {
+          let barang = items[a];
+          let namaBarang = barang[1];
+          let isMatch = namaBarang
+            .toLowerCase()
+            .includes(kataKunci.toLowerCase());
+
+          if (isMatch == true) {
+            filteredItem.push(barang);
+          }
+        }
+        return filteredItem;
+        console.log(filteredItem);
+      }
+
+      formSearch = document.getElementById("formItem");
+
+      formSearch.addEventListener("submit", function (event) {
+        event.preventDefault();
+        inputanSearch = document.getElementById("keyword").value;
+        var terfilter = filter(inputanSearch);
+        // console.log(terfilter);
+        tampilBarang(terfilter);
+      });
+
+      // release 2
+      var keranjang = document.getElementById("cart");
+      var nilaiKeranjang = keranjang.value;
+
+      function addKeranjang() {
+        nilaiKeranjang++;
+        keranjang.innerHTML = `<i class="fas fa-shopping-cart"></i>  (${nilaiKeranjang})`;
+      }
+
+      function clearKeranjang() {
+        nilaiKeranjang = 0;
+        keranjang.innerHTML = `<i class="fas fa-shopping-cart"></i>  (${nilaiKeranjang})`;
+      }
     </script>
   </body>
 </html>
