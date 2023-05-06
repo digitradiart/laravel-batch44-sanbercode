@@ -21,3 +21,10 @@ Route::get('/register', [AuthController::class, 'daftar']);
 
 Route::post('/welcome', [AuthController::class, 'selamatDatang']);
 
+Route::get('/table', function() {
+    return view('pages.table');
+});
+
+Route::get('/data-table', function() {
+    return view('pages.data-table');
+});
